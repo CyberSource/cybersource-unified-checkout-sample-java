@@ -1,0 +1,22 @@
+{
+  "targetOrigins" : [ "https://localhost:8080" ],
+  "clientVersion" : "0.15",
+  "allowedCardNetworks" : [ "VISA", "MASTERCARD", "AMEX" ],
+  "allowedPaymentTypes" : [ "PANENTRY", "SRC","GOOGLEPAY" ],
+  "country" : "US",
+  "locale" : "en_US",
+  "captureMandate" : {
+    "billingType" : "FULL",
+    "requestEmail" : true,
+    "requestPhone" : true,
+    "requestShipping" : true,
+    "shipToCountries" : [ "US", "GB" ],
+    "showAcceptedNetworkIcons" : true
+  },
+  "orderInformation" : {
+    "amountDetails" : {
+      "totalAmount" : "21.00",
+      "currency" : "USD"
+    }
+  }
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="${bootstrapVersion}" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <title>Capture Context</title>
+    <script>
+      if(window. self === window.top) {}
+      else {
+        var emptyDiv = document.createElement('div');
+        emptyDiv.innerHTML = "";
+        document.body.append(emptyDiv);
+      }
+     </script>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark">
+    <a class="navbar-brand" href="/">Unified Checkout</a>
+</nav>
+
+<main role="main" class="container">
+    <div class="py-5 text-center">
+        <h2>Capture Context Request Success</h2>
+        <p class="lead">
+            Your request returned the Capture Context encoded as JWT.
+            This JWT contains all of the information to start the Unified Checkout widget on your checkout page.
+            There is JavaScript URL, SRI hash and much more, all cryptographically signed by VISA.
+        </p>
+    </div>
+    <form th:action="@{/checkout}"
+          method="post">
+        <button class="btn btn-primary" type="submit">Launch checkout page</button>
+        <p/>
+        <div class="form-group">
+            <label for="ta1">Capture Context encoded as JWT (try decoding the JWT using a tool like
+                <a href="https://jwt.io/" target="_blank" rel="noopener noreferrer">jwt.io</a> )
+            </label>
+            <textarea class="form-control" id="ta1" name="captureContext" rows="30" th:text="${jwt}"></textarea>
+        </div>
+    </form>
+</main>
+</body>
+</html>

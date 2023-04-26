@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="${bootstrapVersion}" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <title>Success</title>
+    <script>
+      if(window. self === window.top) {}
+      else {
+        var emptyDiv = document.createElement('div');
+        emptyDiv.innerHTML = "";
+        document.body.append(emptyDiv);
+      }
+     </script>
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark">
+    <a class="navbar-brand" href="/">Unified Checkout</a>
+</nav>
+<main role="main" class="container">
+    <div class="py-5 text-center">
+        <h2>Successfully Received Transient Token</h2>
+        <p class="lead">
+            Unified Checkout returned a transient token which you can use to process payment for the customer's order.
+        </p>
+    </div>
+    <form>
+        <div class="form-group">
+            <label for="ta1">Transient token encoded as JWT (try decoding the JWT using a tool like
+                <a href="https://jwt.io/" target="_blank" rel="noopener noreferrer">jwt.io</a> )
+            </label>
+            <textarea class="form-control" id="ta1" name="captureContext" rows="15" th:text="${transientToken}"></textarea>
+        </div>
+    </form>
+</main>
+</body>
+</html>
