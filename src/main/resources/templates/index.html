@@ -5,7 +5,8 @@
     <title>Sample Checkout</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" th:href="${bootstrapVersion}" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="${bootstrapVersion}"
+          integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <script>
       if(window. self === window.top) {}
       else {
@@ -13,30 +14,39 @@
         emptyDiv.innerHTML = "";
         document.body.append(emptyDiv);
       }
-     </script>
+
+
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark">
     <a class="navbar-brand" href="/">Unified Checkout</a>
 </nav>
 <main role="main" class="container">
-    <div class="py-5 text-center">
+    <div class="py-4 text-center">
         <h2>Request Capture Context</h2>
+    </div>
+    <div class="py-2 text-left">
         <p class="lead">
-            Once you are ready to render checkout page (or pay now button), you need to request Capture Context from Unified Checkout endpoint.
-            The JSON payload below was created based on your intent from previous step.
-            Once sent to CyberSource Unified Payment service, it will produce JWT that can be used to initialize Unified Checkout.
+            Once you are ready to render the checkout page, you need to request the Capture Context from the
+            <code>/up/v1/capture-contexts</code> endpoint. The capture context request below drives Unified Checkout's
+            behavior, including accepted payment types, card networks, address information to be collected, and more.
+            The capture context request also allows you to optionally pass in previously collected information (e.g.
+            billing and shipping) to pre-fill this into Unified Checkout. The request produces a JWT that is
+            used to initialize Unified Checkout.
         </p>
     </div>
 
     <form th:action="@{/capture-context}"
-      method="post">
-    <button type="submit" class="btn btn-primary">Generate Capture Context</button>
-    <p/>
-    <div class="form-group">
-        <label for="ta1">Capture Context Request Payload, which can be altered in src/main/resources/capture-context-request.json:</label>
-        <textarea class="form-control" id="ta1" name="capture-context-request" th:attr="rows=${requestLineCount}" th:text="${requestJson}"></textarea>
-    </div>
+          method="post">
+        <button type="submit" class="btn btn-primary">Generate Capture Context</button>
+        <p/>
+        <div class="form-group">
+            <label for="ta1">Capture Context Request payload. You can change the request parameters by editing the
+                values below:</label>
+            <textarea class="form-control" id="ta1" name="captureContextRequest" th:attr="rows=${requestLineCount}"
+                      th:text="${requestJson}"></textarea>
+        </div>
     </form>
 </main>
 </body>

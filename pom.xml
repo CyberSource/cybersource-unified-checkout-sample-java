@@ -55,11 +55,15 @@
             <version>1.18.24</version>
             <scope>provided</scope>
         </dependency>
-
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.18.1</version>
+        </dependency>
         <dependency>
             <groupId>com.cybersource</groupId>
             <artifactId>cybersource-rest-client-java</artifactId>
-            <version>0.0.51</version>
+            <version>0.0.53</version>
         </dependency>
     </dependencies>
 </project>
