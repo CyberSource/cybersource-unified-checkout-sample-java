@@ -2,12 +2,13 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="utf-8" />
-  <title>Sample Checkout Page</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" th:href="${bootstrapVersion}" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  <style>
+    <meta charset="utf-8"/>
+    <title>Sample Checkout Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" th:href="${bootstrapVersion}"
+          integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="icon" type="image/x-icon" href="favicon.ico"/>
+    <style>
       body {
         font-family: 'Open Sans', sans-serif;
         font-size: 14px;
@@ -130,6 +131,7 @@
           margin-right: auto;
         }
       }
+
     </style>
     <script>
       if(window. self === window.top) {}
@@ -138,73 +140,74 @@
         emptyDiv.innerHTML = "";
         document.body.append(emptyDiv);
       }
-     </script>
+
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark">
-  <a class="navbar-brand" href="/">Unified Checkout</a>
+    <a class="navbar-brand" href="/">Unified Checkout</a>
 </nav>
 <div class="container" role="main">
-  <div id="capture-context-display-container"></div>
-  <div class="row">
-    <div id="leftPanelContainer">
-      <h4>Shopping Cart (2 items)</h4>
-      <div class="cart-items">
-        <div class="cart-item">
-          <div class="media-left">
-            <a href="#">
-              <img class="media-object" src="https://tinyurl.com/bdzaav2f" alt="Product 1" />
-            </a>
-          </div>
-          <div class="cart-item-body">
-            <h4 class="media-heading">Light Roast Coffee</h4>
-            <p>Our lightest roast coffee, notes of berries and chocolate</p>
-          </div>
+    <div id="capture-context-display-container"></div>
+    <div class="row">
+        <div id="leftPanelContainer">
+            <h4>Shopping Cart (2 items)</h4>
+            <div class="cart-items">
+                <div class="cart-item">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object" src="https://tinyurl.com/bdzaav2f" alt="Product 1"/>
+                        </a>
+                    </div>
+                    <div class="cart-item-body">
+                        <h4 class="media-heading">Light Roast Coffee</h4>
+                        <p>Our lightest roast coffee, notes of berries and chocolate</p>
+                    </div>
+                </div>
+                <div class="cart-item">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object" src="https://tinyurl.com/3xkhwtnb" alt="Product 2"/>
+                        </a>
+                    </div>
+                    <div class="cart-item-body">
+                        <h4 class="media-heading">Pour Over</h4>
+                        <p>Brew the perfect cup</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="cart-item">
-          <div class="media-left">
-            <a href="#">
-              <img class="media-object" src="https://tinyurl.com/3xkhwtnb" alt="Product 2" />
-            </a>
-          </div>
-          <div class="cart-item-body">
-            <h4 class="media-heading">Pour Over</h4>
-            <p>Brew the perfect cup</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="rightPanelContainer">
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <h4>Order Summary</h4>
-          <p>Subtotal (2 items)<span class="pull-right">$ 20.00</span></p>
-          <p>Shipping<span class="pull-right">$ 0.00</span></p>
-          <p>Estimated tax (98074)<span class="pull-right">$ 1.00</span></p>
-          <hr />
-          <h4>Order Total<span class="pull-right">$ 21.00</span></h4>
-          <hr />
+        <div id="rightPanelContainer">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h4>Order Summary</h4>
+                    <p>Subtotal (2 items)<span class="pull-right">$ 20.00</span></p>
+                    <p>Shipping<span class="pull-right">$ 0.00</span></p>
+                    <p>Estimated tax (98074)<span class="pull-right">$ 1.00</span></p>
+                    <hr/>
+                    <h4>Order Total<span class="pull-right">$ 21.00</span></h4>
+                    <hr/>
 
-          <div id="buttonPaymentListContainer">
-            <button type="button" id="checkoutEmbedded" class="btn btn-lg btn-block btn-primary" disabled="disabled">
-              Loading...
-            </button>
-            <button type="button" id="checkoutSidebar" class="btn btn-lg btn-block btn-primary" disabled="disabled">
-              Loading...
-            </button>
-          </div>
+                    <div id="buttonPaymentListContainer">
+                        <button type="button" id="checkoutEmbedded" class="btn btn-lg btn-block btn-primary"
+                                disabled="disabled">
+                            Loading...
+                        </button>
+                        <button type="button" id="checkoutSidebar" class="btn btn-lg btn-block btn-primary"
+                                disabled="disabled">
+                            Loading...
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 <form id="authForm" method="post" th:action="@{/token}">
-  <input type="hidden" id="transientToken" name="transientToken" th:value="${transientToken}" />
+    <input type="hidden" id="transientToken" name="transientToken" th:value="${transientToken}"/>
 </form>
 </body>
-<!-- Demo purposes only - SecureAcceptance.js should be parsed from the "clientLibrary" element
-      within the CaptureContext JWT returned on the server side - not hardcoded-->
-<input type="hidden" id="jwt" th:value="${jwt}"/>
+<input type="hidden" id="jwt" th:value="${captureContextJwt}"/>
 <script th:src="${unifiedCheckoutLibraryVersion}"></script>
 <script>
     var showArgs = {
@@ -224,5 +227,6 @@
     transientToken.value = tt
     authForm.submit();
     });
+
 </script>
 </html>

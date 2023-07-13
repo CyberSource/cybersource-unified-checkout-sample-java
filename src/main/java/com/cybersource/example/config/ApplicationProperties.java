@@ -12,7 +12,7 @@ import java.util.Properties;
 // Spring automatically looks for an application.properties in src/main/resources and binds to corresponding fields.
 public class ApplicationProperties {
     String merchantID;
-    String host;
+    String requestHost;
     String merchantKeyId;
     String merchantSecretKey;
     String userAgent;
@@ -25,6 +25,7 @@ public class ApplicationProperties {
         props.setProperty("merchantKeyId", getMerchantKeyId());
         props.setProperty("merchantsecretKey", getMerchantSecretKey());
         props.setProperty("userAgent", getUserAgent());
+        props.setProperty("requestHost", requestHost);
         props.setProperty("runEnvironment", getRunEnvironment());
         props.setProperty("authenticationType", getAuthenticationType());
 

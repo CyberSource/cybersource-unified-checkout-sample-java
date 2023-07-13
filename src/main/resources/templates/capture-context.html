@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" th:href="${bootstrapVersion}" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="${bootstrapVersion}"
+          integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <title>Capture Context</title>
     <script>
       if(window. self === window.top) {}
@@ -13,7 +14,8 @@
         emptyDiv.innerHTML = "";
         document.body.append(emptyDiv);
       }
-     </script>
+
+    </script>
 </head>
 
 <body>
@@ -22,12 +24,14 @@
 </nav>
 
 <main role="main" class="container">
-    <div class="py-5 text-center">
+    <div class="py-4 text-center">
         <h2>Capture Context Request Success</h2>
+    </div>
+    <div class="py-2 text-left">
         <p class="lead">
             Your request returned the Capture Context encoded as JWT.
             This JWT contains all of the information to start the Unified Checkout widget on your checkout page.
-            There is JavaScript URL, SRI hash and much more, all cryptographically signed by VISA.
+            There is JavaScript URL, SRI hash and more, all cryptographically signed by Visa.
         </p>
     </div>
     <form th:action="@{/checkout}"
@@ -36,9 +40,13 @@
         <p/>
         <div class="form-group">
             <label for="ta1">Capture Context encoded as JWT (try decoding the JWT using a tool like
-                <a href="https://jwt.io/" target="_blank" rel="noopener noreferrer">jwt.io</a> )
+                <a href="https://jwt.io/" target="_blank" rel="noopener noreferrer">jwt.io</a>, or see below)
             </label>
-            <textarea class="form-control" id="ta1" name="captureContext" rows="30" th:text="${jwt}"></textarea>
+            <textarea class="form-control" id="ta1" name="captureContext" rows="15"
+                      th:text="${captureContextJwt}"></textarea>
+            <br/>
+            <label for="ta2">Decoded capture context:</label>
+            <textarea class="form-control" id="ta2" name="captureContext" rows="20" th:text="${decodedBody}"></textarea>
         </div>
     </form>
 </main>
