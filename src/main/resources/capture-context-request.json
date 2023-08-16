@@ -1,6 +1,6 @@
 {
   "targetOrigins" : [ "https://localhost:8080" ],
-  "clientVersion" : "0.15",
+  "clientVersion" : "0.17",
   "allowedCardNetworks" : [ "VISA", "MASTERCARD", "AMEX" ],
   "allowedPaymentTypes" : [ "PANENTRY", "SRC","GOOGLEPAY" ],
   "country" : "US",
@@ -17,6 +17,34 @@
     "amountDetails" : {
       "totalAmount" : "21.00",
       "currency" : "USD"
+    },
+    "billTo" : {
+      "address1" : "123 Cool Street",
+      "administrativeArea" : "NY",
+      "buildingNumber" : "12",
+      "country" : "US",
+      "district" : "district",
+      "locality" : "New York",
+      "postalCode" : "10172",
+      "email" : "foo@bar.com",
+      "firstName" : "Viktor",
+      "lastName" : "Vaughn",
+      "middleName" : "F",
+      "nameSuffix" : "Jr",
+      "title" : "Mr",
+      "phoneNumber" : "1234567890",
+      "phoneType" : "mobile"
+    },
+    "shipTo" : {
+      "address1" : "456 Nice Avenue",
+      "administrativeArea" : "CA",
+      "buildingNumber" : "409",
+      "country" : "US",
+      "district" : "Uptown",
+      "locality" : "Los Angeles",
+      "postalCode" : "90010",
+      "firstName" : "Alan",
+      "lastName" : "Turing"
     }
   }
 }

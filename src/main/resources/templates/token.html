@@ -3,7 +3,8 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" th:href="${bootstrapVersion}" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="${bootstrapVersion}"
+          integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <title>Success</title>
     <script>
       if(window. self === window.top) {}
@@ -12,25 +13,35 @@
         emptyDiv.innerHTML = "";
         document.body.append(emptyDiv);
       }
-     </script>
+
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark">
     <a class="navbar-brand" href="/">Unified Checkout</a>
 </nav>
 <main role="main" class="container">
-    <div class="py-5 text-center">
+    <div class="py-4 text-center">
         <h2>Successfully Received Transient Token</h2>
+    </div>
+    <div class="py-2 text-left">
         <p class="lead">
-            Unified Checkout returned a transient token which you can use to process payment for the customer's order.
+            Unified Checkout returned a transient token (i.e. secured payment details)
+            which you can use to process payment for the customer's order.
         </p>
     </div>
+    <form th:action="@{/receipt}"
+          method="post">
+        <button class="btn btn-primary" type="submit">Process Payment with Transient Token</button>
+        <p></p>
+    </form>
     <form>
         <div class="form-group">
-            <label for="ta1">Transient token encoded as JWT (try decoding the JWT using a tool like
-                <a href="https://jwt.io/" target="_blank" rel="noopener noreferrer">jwt.io</a> )
-            </label>
-            <textarea class="form-control" id="ta1" name="captureContext" rows="15" th:text="${transientToken}"></textarea>
+            <label for="ta1">JWT-encoded Transient Token:</label>
+            <textarea class="form-control" id="ta1" rows="10" th:text="${encodedTransientToken}"></textarea>
+            <br/>
+            <label for="ta2">Decoded Transient Token:</label>
+            <textarea class="form-control" id="ta2" rows="20" th:text="${decodedTransientToken}"></textarea>
         </div>
     </form>
 </main>
