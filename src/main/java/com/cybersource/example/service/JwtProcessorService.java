@@ -5,7 +5,6 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.cybersource.example.config.ApplicationProperties;
 import com.cybersource.example.domain.CaptureContextResponseBody;
-import com.cybersource.example.domain.CaptureContextResponseHeader;
 import com.cybersource.example.domain.JWK;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -47,16 +46,17 @@ public class JwtProcessorService {
 
         // Verify the JWT's signature using the public key
         final Algorithm algorithm = Algorithm.RSA256(rsaPublicKey, null);
-        final JWTVerifier verifier = JWT.require(algorithm).build();
+        final JWTVerifier verifier = JWT.require(algorithm).acceptLeeway(20).build();
 
-        // This will throw a runtime exception if there's a signature mismatch.
+        // This will throw a runtime exception if there's a signature mismatch, we'd want this to blow up as it means the response
+        // may be malicious and we can't proceed safely.
         verifier.verify(jwt);
 
         return body;
     }
     @SneakyThrows
     public String getClientVersionFromDecodedBody(final String jwtBody) {
-        // Map the JWT Body to a POJO
+        // Map the JWT Body to a POJO, which is probably the most readable way to do the stream below
         final CaptureContextResponseBody mappedBody = new ObjectMapper().readValue(jwtBody, CaptureContextResponseBody.class);
 
         // Dynamically retrieve the client library
@@ -67,15 +67,14 @@ public class JwtProcessorService {
 
     @SneakyThrows
     private JWK getPublicKeyFromHeader(final String jwtHeader) {
-        // Again, this process should be cached so you don't need to hit /public-keys
+        // Again, this process should be cached so you don't need to hit /public-keys every request
         // You'd want to look for a difference in the header's value (e.g. new key id [kid]) to refresh your cache
-        final CaptureContextResponseHeader mappedJwtHeader =
-                new ObjectMapper().readValue(jwtHeader, CaptureContextResponseHeader.class);
+        final String keyId = new ObjectMapper().readTree(jwtHeader)
+                .get("kid")
+                .textValue();
 
-        final RestTemplate restTemplate = new RestTemplate();
-        final ResponseEntity<String> response =
-                restTemplate.getForEntity(
-                        "https://" + applicationProperties.getRequestHost() + "/flex/v2/public-keys/" + mappedJwtHeader.kid(),
+        final ResponseEntity<String> response = new RestTemplate().getForEntity(
+                        "https://" + applicationProperties.getRequestHost() + "/flex/v2/public-keys/" + keyId,
                         String.class);
         return new ObjectMapper().readValue(response.getBody(), JWK.class);
     }

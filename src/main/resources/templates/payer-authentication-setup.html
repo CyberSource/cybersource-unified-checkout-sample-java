@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" th:href="${bootstrapVersion}"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <title>Success</title>
+  <script>
+      if(window. self === window.top) {}
+      else {
+        var emptyDiv = document.createElement('div');
+        emptyDiv.innerHTML = "";
+        document.body.append(emptyDiv);
+      }
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark">
+  <a class="navbar-brand" href="/">Unified Checkout</a>
+</nav>
+<main role="main" class="container">
+  <div class="py-4 text-center">
+    <h2>Payer Authentication Setup</h2>
+  </div>
+  <div class="py-2 text-left">
+    <p class="lead">
+      We begin the payer authentication process by calling the <code>/risk/v1/authentication-setups</code> endpoint.
+      This allows us to pass in the transient token JWT we received from Unified Checkout in place of raw payment credentials.
+      <p class="lead">
+      (Note: The <code>/authentication-setups</code> endpoint requires the JTI in the
+      <code>$.tokenInformation.transientToken</code> field, rather than the full JWT like <code>/payments</code> and several other APIs.
+      Full details on the payer authentication process are available
+      <a href="https://developer.cybersource.com/docs/cybs/en-us/payer-authentication/developer/all/so/payer-auth/pa2-intro-intro.html">in the developer guide</a>.)
+    </p>
+
+  </div>
+  <form th:action="@{/payer-authentication-enrollment}"
+        method="post">
+    <button class="btn btn-primary" type="submit">Continue to Enrollment</button>
+  </form>
+  </form>
+  <form>
+    <p/>
+    <div class="form-group">
+      <label for="payerAuthenticationSetupResponse">Below is the payer authentication setup API's response:</label>
+      <textarea class="form-control" id="payerAuthenticationSetupResponse" name="captureContextRequest" rows="15" th:text="${payerAuthenticationSetupResponse}"></textarea>
+    </div>
+  </form>
+  <div class="py-2 text-left">
+    <p class="lead">
+      Using the <code>accessToken</code> and <code>deviceDataCollectionUrl</code> returned above, we can call Cardinal's (a Visa owned company) Centinel
+      JavaScript library to perform device data collection. This library collects the necessary browser information mandatory for an EMV Authentication Request (AReq).
+    </p>
+  </div>
+  <form>
+    <div class="form-group">
+      <label for="cardinalResponse">This page contains the device data collection JavaScript library. When we receive a response from Cardinal we'll log it below:</label>
+      <textarea class="form-control" id="cardinalResponse" rows="3"></textarea>
+    </div>
+  </form>
+  <p/>
+  <iframe id="cardinal_collection_iframe" name="collectionIframe" height="1" width="1"></iframe>
+  <form id="cardinal_collection_form" method="POST" target="collectionIframe" th:action="${cardinalDataCollectionUrl}">
+    <input id="cardinal_collection_form_input" type="hidden" name="JWT" th:value="${payerAuthenticationSetupJwt}">
+  </form>
+</main>
+</body>
+<script th:inline="javascript">
+  window.addEventListener("message", function(event) {
+      var cardinalEnvironment = /*[[${cardinalDataCollectionEnvironment}]]*/;
+      if (event.origin === cardinalEnvironment) {
+      console.log(event.data);
+      document
+      .getElementById("cardinalResponse")
+      .innerHTML = event.data;
+  }
+  }, false);
+</script>
+<script>
+  window.onload = function() {
+    var cardinalCollectionForm = document.querySelector('#cardinal_collection_form');
+    if(cardinalCollectionForm)
+    cardinalCollectionForm.submit();
+  }
+</script>
+</html>

@@ -26,15 +26,37 @@
     </div>
     <div class="py-2 text-left">
         <p class="lead">
-            Unified Checkout returned a transient token (i.e. secured payment details)
-            which you can use to process payment for the customer's order.
+            Unified Checkout returned a transient token (i.e. secured payment details) which you can use to process payment for the customer's order.
+            Below you can view the transient token in JWT and decrypted form and choose to either process payment immediately or invoke payer authentication to perform 3DS.
         </p>
     </div>
-    <form th:action="@{/receipt}"
-          method="post">
-        <button class="btn btn-primary" type="submit">Process Payment with Transient Token</button>
-        <p></p>
-    </form>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Process payment</h5>
+                    <p class="card-text">Go directly to the payment processing step using the transient token we retrieved from Unified Checkout.</p>
+                    <form th:action="@{/receipt}"
+                          method="post">
+                        <button class="btn btn-primary" type="submit">Process Payment with Transient Token</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card" >
+                <div class="card-body">
+                    <h5 class="card-title">Perform 3DS</h5>
+                    <p class="card-text">Begin the payer authentication (3DS) journey by collecting device information.</p>
+                    <form th:action="@{/payer-authentication-setup}"
+                          method="post">
+                        <button class="btn btn-primary" type="submit">Use Transient Token to Perform 3DS</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p/>
     <form>
         <div class="form-group">
             <label for="ta1">JWT-encoded Transient Token:</label>
