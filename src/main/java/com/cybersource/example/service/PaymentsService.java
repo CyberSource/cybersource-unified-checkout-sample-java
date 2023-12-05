@@ -36,7 +36,7 @@ public class PaymentsService {
                 .clientReferenceInformation(clientReferenceInfo)
                 .tokenInformation(tokenInformation)
                 // TODO: Adding these in case $.captureMandate.billingType = PARTIAL or NONE,
-                //  or $.captureMandate.requestShipping = false. Long term, this should be fixed and this shouldn't be necessary.
+                //  or $.captureMandate.requestShipping = false. In clientVersion 0.18, this should be fixed and this shouldn't be necessary.
                 .orderInformation(new Ptsv2paymentsOrderInformation()
                         .billTo(new Ptsv2paymentsOrderInformationBillTo().administrativeArea("NY"))
                         .shipTo(new Ptsv2paymentsOrderInformationShipTo().administrativeArea("NY"))

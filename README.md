@@ -53,3 +53,9 @@ Otherwise you can add the `ucDemoKeystore.p12` in `./src/main/resources/keystore
 
 To serve from a different domain, or change other request attributes, see the request in `./src/main/resources/capture-context-request.json`.
 The `targetOrigins` field in this request controls where your checkout page is served.
+
+### Test Cards
+- `4111 1111 1111 1111` - Visa test card, frictionless 3DS
+- `4456 5300 0000 1096` - Visa test card, 3DS challenge will be issued
+- `5200 0000 0000 1096` - Mastercard test card, 3DS challenge will be issued
+- [Other 3DS test scenarios](https://developer.cybersource.com/library/documentation/dev_guides/Payer_Authentication_SCMP_API/html/Topics/Test_Cases_for_3D_Secure_2_x.htm)

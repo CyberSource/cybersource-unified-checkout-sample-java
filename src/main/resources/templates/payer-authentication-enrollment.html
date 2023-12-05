@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="${bootstrapVersion}"
+          integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <title>Success</title>
+    <script>
+      if(window. self === window.top) {}
+      else {
+        var emptyDiv = document.createElement('div');
+        emptyDiv.innerHTML = "";
+        document.body.append(emptyDiv);
+      }
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark">
+    <a class="navbar-brand" href="/">Unified Checkout</a>
+</nav>
+<main role="main" class="container">
+    <div class="py-4 text-center">
+        <h2>Payer Authentication Enrollment</h2>
+    </div>
+    <div class="py-2 text-left">
+        <p class="lead">
+            Before performing the risk assessment and potential step-up (e.g. 3DS challenge in a modal), we must check that
+            payer authentication enrollment was successful. We'll do this by calling the <code>/risk/v1/authentications</code>
+            endpoint from our backend using the Java rest client as we've done so far.
+        </p>
+    </div>
+    <div th:if="${stepUpRequired}">
+        <div class="py-2 text-left">
+            <p class="lead">
+                Similar to the payer authentication setup step, we need to perform step up (e.g. customer authentication)
+                since we received a status of <code>PENDING_AUTHENTICATION</code>. We can use the <code>accessToken</code> and <code>stepUpUrl</code>
+                in the API response to perform step-up.
+            </p>
+            <p class="lead">Proceed by interacting with the step-up iframe below</p>
+        </div>
+        <div class="embed-responsive embed-responsive-4by3">
+            <iframe class="embed-responsive-item" id="stepUpIframe" name="stepUpIframe"></iframe>
+        </div>
+        <form id="stepUpForm" method="POST" target="stepUpIframe" th:action="${stepUpUrl}">
+            <input id="stepUpFormInput" type="hidden" name="JWT" th:value="${stepUpAccessToken}">
+        </form>
+    </div>
+    <div th:unless="${stepUpRequired}">
+        <div class="alert alert-success" role="alert">
+            We received status AUTHENTICATION_SUCCESSFUL in the response below, meaning we can proceed with payment without
+            performing step-up. To receive a challenge, try card number <code>4456 5300 0000 1096</code> for Visa,
+            <code>5200 0000 0000 1096</code> for Mastercard, or others listed
+            <a href="https://developer.cybersource.com/library/documentation/dev_guides/Payer_Authentication_SCMP_API/html/Topics/Test_Cases_for_3D_Secure_2_x.htm">
+                here</a>.
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Start the Checkout Process Over</h5>
+                        <p class="card-text">Use a different card to try the step-up flow or experiment with different capture contexts.</p>
+                        <form th:action="@{/}"
+                              method="get">
+                            <button class="btn btn-primary" type="submit">Start Over</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card" >
+                    <div class="card-body">
+                        <h5 class="card-title">Process Payment with Transient Token</h5>
+                        <p class="card-text">Now that we've performed our required authentication steps we can proceed to process payment.</p>
+                        <form th:action="@{/receipt}"
+                              method="post">
+                            <button class="btn btn-primary" type="submit">Use Transient Token to Process Payment</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p></p>
+    </div>
+    <div class="form-group">
+        <label for="payerAuthenticationSetupResponse">Below is the payer authentication enrollment API's response:</label>
+        <textarea class="form-control" id="payerAuthenticationSetupResponse" name="captureContextRequest" rows="10" th:text="${payerAuthenticationEnrollmentResponse}"></textarea>
+    </div>
+</main>
+</body>
+<script>
+    window.onload = function() {
+        var stepUpForm = document.querySelector('#stepUpForm');
+        if(stepUpForm) // Step-Up form exists
+        stepUpForm.submit();
+    }
+
+    var cardinalIframe = document.getElementById('stepUpIframe');
+    cardinalIframe.onload = function() {
+        try {
+            if (window.frames['stepUpIframe'].location.host === "localhost:8080") {
+                window.location.href = "https://localhost:8080/payer-authentication-validation";
+            }
+        }
+        // TODO: There's probably a much more elegant way to do this, but it'll do for now
+        catch (error) {
+            console.log('Trying to get host from a different origin, swallowing the error')
+        }
+    }
+
+
+</script>
+</html>

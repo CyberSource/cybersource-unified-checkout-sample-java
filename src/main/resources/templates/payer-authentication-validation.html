@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" th:href="${bootstrapVersion}"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <title>Success</title>
+  <script>
+      if(window. self === window.top) {}
+      else {
+        var emptyDiv = document.createElement('div');
+        emptyDiv.innerHTML = "";
+        document.body.append(emptyDiv);
+      }
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark">
+  <a class="navbar-brand" href="/">Unified Checkout</a>
+</nav>
+<main role="main" class="container">
+  <div class="py-4 text-center">
+    <h2>Payer Authentication Validation</h2>
+  </div>
+  <div class="py-2 text-left">
+    <p class="lead">
+      The last step is to call the payer authentication validation endpoint at <code>/risk/v1/authentication-results</code>
+      using the SDK. We use the <code>transactionId</code> returned by Cardinal from the step-up process to do so. If we
+      received AUTHENTICATION_SUCCESSFUL earlier when performing the initial enrollment, we can skip this step along with the
+      step-up itself.
+    </p>
+  </div>
+    <div th:if="${isSuccessful}">
+      <div class="alert alert-success" role="alert">
+        We received status AUTHENTICATION_SUCCESSFUL in the response below, meaning the user successfully completed the
+        challenge and we can proceed with payment.
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Start the Checkout Process Over</h5>
+              <p class="card-text">Use a different card to try the frictionless flow or experiment with different capture contexts.</p>
+              <form th:action="@{/}"
+                    method="get">
+                <button class="btn btn-primary" type="submit">Start Over</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="card" >
+            <div class="card-body">
+              <h5 class="card-title">Process Payment with Transient Token</h5>
+              <p class="card-text">Now that we've performed our required authentication steps we can proceed to process payment.</p>
+              <form th:action="@{/receipt}"
+                    method="post">
+                <button class="btn btn-primary" type="submit">Use Transient Token to Process Payment</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p></p>
+    </div>
+  <div th:unless="${isSuccessful}">
+    <div class="alert alert-danger" role="alert">
+      We received status a failure status in the response below with error message: <div th:text="${errorMessage}"></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Start the Checkout Process Over</h5>
+            <p class="card-text">Use a different card or experiment with different capture contexts.</p>
+            <form th:action="@{/}"
+                  method="get">
+              <button class="btn btn-primary" type="submit">Start Over</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p></p>
+  </div>
+
+  <div class="form-group">
+    <label for="payerAuthenticationResultsResponse">Below is the payer authentication enrollment API's response:</label>
+    <textarea class="form-control" id="payerAuthenticationResultsResponse" name="captureContextRequest" rows="10" th:text="${authenticationResultsResponse}"></textarea>
+  </div>
+</main>
+</body>
+</html>
